@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const jokeRotute = require("./routes/joke-route");
+const userRoute = require("./routes/user-route");
 
 
 
@@ -13,6 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/jokes", jokeRotute);
+app.use("/user", userRoute);
+
 
 
 app.listen(3002, () =>

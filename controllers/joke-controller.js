@@ -1,4 +1,4 @@
-const JokeService = require("../services/joke-service");
+const JokeService = require("../services/joke.service");
 
 const getPendingJokes = async (req, res) => {
   try {
@@ -35,6 +35,8 @@ const deleteJoke = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 module.exports = {
   getPendingJokes,

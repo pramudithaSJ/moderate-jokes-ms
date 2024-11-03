@@ -1,54 +1,30 @@
 var express = require("express");
 var router = express.Router();
 
-var JokeService = require("../services/joke.service");
-
-router.get("/", function (req, res) {
-  JokeService.getPendingJokes()
-    .then(function (jokes) {
-      return res.status(200).json(jokes);
-    })
-    ["catch"](function (error) {
-      return res.status(500).json({
-        error: error.message,
-      });
-    });
+const JokeControllers = require("../controllers/joke-controller");
+const UserServices = require("../services/user-service");
+router.get("/", UserServices.verifyToken, async function (req, res, next) {
+  JokeControllers.getPendingJokes(req, res);
 });
 
-router.get("/:id", function (req, res) {
-  JokeService.getJokeById(req.params.id)
-    .then(function (joke) {
-      return res.status(200).json(joke);
-    })
-    ["catch"](function (error) {
-      return res.status(500).json({
-        error: error.message,
-      });
-    });
+router.get("/:id", UserServices.verifyToken, async function (req, res, next) {
+  JokeControllers.getJokeById(req, res);
 });
 
-router.put("/:id/approve", function (req, res) {
-  JokeService.approveJoke(req.params.id)
-    .then(function (joke) {
-      return res.status(200).json(joke);
-    })
-    ["catch"](function (error) {
-      return res.status(500).json({
-        error: error.message,
-      });
-    });
-});
+router.put(
+  "/:id/approve",
+  UserServices.verifyToken,
+  async function (req, res, next) {
+    JokeControllers.approveJoke(req, res);
+  }
+);
 
-router["delete"]("/:id", function (req, res) {
-  JokeService.deleteJoke(req.params.id)
-    .then(function (joke) {
-      return res.status(200).json(joke);
-    })
-    ["catch"](function (error) {
-      return res.status(500).json({
-        error: error.message,
-      });
-    });
-});
+router.delete(
+  "/:id",
+  UserServices.verifyToken,
+  async function (req, res, next) {
+    JokeControllers.deleteJoke(req, res);
+  }
+);
 
 module.exports = router;

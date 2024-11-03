@@ -33,6 +33,7 @@ const approveJoke = async (id) => {
 const deleteJoke = async (id) => {
   try {
     const response = await axios.delete(`${BaseUrl}/jokes/${id}`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
