@@ -7,6 +7,11 @@ router.get("/", UserServices.verifyToken, async function (req, res, next) {
   JokeControllers.getPendingJokes(req, res);
 });
 
+router.post("/", UserServices.verifyToken, async function (req, res, next) {
+  JokeControllers.approveJoke(req, res);
+});
+
+
 router.get("/:id", UserServices.verifyToken, async function (req, res, next) {
   JokeControllers.getJokeById(req, res);
 });
@@ -18,6 +23,7 @@ router.put(
     JokeControllers.approveJoke(req, res);
   }
 );
+
 
 router.delete(
   "/:id",
