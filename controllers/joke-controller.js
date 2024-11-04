@@ -20,7 +20,7 @@ const getJokeById = async (req, res) => {
 
 const approveJoke = async (req, res) => {
   try {
-    const joke = await JokeService.approveJoke(req.params.id);
+    const joke = await JokeService.approveJoke(req.body);
     res.status(200).json(joke);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -2,6 +2,7 @@ const axios = require("axios");
 const { text } = require("express");
 
 BaseUrl = process.env.SUBMIT_JOKES_SERVICE_URL;
+DeliveryServiceUrl = process.env.DELIVER_JOKES_SERVICE_URL;
 
 const getPendingJokes = async () => {
   try {
@@ -21,9 +22,17 @@ const getJokeById = async (id) => {
   }
 };
 
-const approveJoke = async (id) => {
+const approveJoke = async (joke) => {
   try {
-    const response = await axios.put(`${BaseUrl}/jokes/${id}/approve`);
+    const response = await axios.post(`${DeliveryServiceUrl}/jokes`, {
+      text: joke.text,
+      type: joke.type,
+    });
+    const res = await axios.put(`${BaseUrl}/jokes/${joke._id}`, {
+      text: joke.text,
+      type: joke.type,
+    });
+
     return response.data;
   } catch (error) {
     console.error(error);
